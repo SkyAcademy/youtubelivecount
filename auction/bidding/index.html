@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html>
+
+<!-- Mirrored from livecounts.net/auction/bidding/ by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 08 Aug 2019 11:41:24 GMT -->
+<head>
+<title>Front page auction</title>
+
+<script src="../../../cdnjs.cloudflare.com/ajax/libs/socket.io/1.4.5/socket.io.js"></script>
+<style>
+body {
+    font-family: Arial;
+	margin: 20px;
+}
+#biddingArea {
+	float: left;
+	width: 430px;
+    margin-right: 20px;
+}
+table {
+    border-collapse: collapse;
+	margin-top: -50px;
+}
+td, th {
+    border: 1px solid #999;
+    padding: 0rem 0.5rem 0rem 0.5rem;
+    text-align: center;
+    //font-family: Arial;
+}
+tfoot, #announcement {
+    font-weight: bold;
+}
+#userCount {
+	color: #00f;
+}
+</style>
+</head>
+<body>
+
+<h1>September front page auction</h1>
+<div id=biddingArea>
+<div>Password:</div>
+<input type=password id=youtuber style='border:1px solid #999; width:200px; font-size:20px' tabindex="1" onkeydown="handlePass(event)" disabled><button type=button id=logIn onclick=checkPassword() style='margin-left:20px' disabled>Log in</button>
+<br>
+<br>
+<div>Day (20-30):</div>
+<input type=text id=day style='width:100px; font-size:20px' tabindex="2" onkeydown="handleDay(event)" disabled>
+<br>
+<br>
+<div>Bid amount ($):</div>
+<input type=text id=bid style='width:100px; font-size:20px' tabindex="3" onkeydown="handleBid(event)" disabled>
+<br>
+<br>
+<button type=button id=submitBid onclick=submit() disabled>Submit</button>
+
+<br>
+<br>
+<div id=status style='font-size:16px; font-family:Arial'>Loading - please wait...</div>
+<br>
+<div id=userCount></div>
+<br>
+<div id=announcement></div>
+<br>
+</div>
+<br>
+<br>
+<br>
+<table>
+<thead>
+<tr><th>Date</th><th>Highest bidder</th><th>Highest bid ($)</th><th>Your bid ($)</th></tr>
+</thead>
+<tbody>
+
+<tr><td id=d20>9/20</td><td id=y20>-</td><td id=h20>-</td><td id=b20>-</td></tr>
+<tr><td id=d21>9/21</td><td id=y21>-</td><td id=h21>-</td><td id=b21>-</td></tr>
+<tr><td id=d22>9/22</td><td id=y22>-</td><td id=h22>-</td><td id=b22>-</td></tr>
+<tr><td id=d23>9/23</td><td id=y23>-</td><td id=h23>-</td><td id=b23>-</td></tr>
+<tr><td id=d24>9/24</td><td id=y24>-</td><td id=h24>-</td><td id=b24>-</td></tr>
+<tr><td id=d25>9/25</td><td id=y25>-</td><td id=h25>-</td><td id=b25>-</td></tr>
+<tr><td id=d26>9/26</td><td id=y26>-</td><td id=h26>-</td><td id=b26>-</td></tr>
+<tr><td id=d27>9/27</td><td id=y27>-</td><td id=h27>-</td><td id=b27>-</td></tr>
+<tr><td id=d28>9/28</td><td id=y28>-</td><td id=h28>-</td><td id=b28>-</td></tr>
+<tr><td id=d29>9/29</td><td id=y29>-</td><td id=h29>-</td><td id=b29>-</td></tr>
+<tr><td id=d30>9/30</td><td id=y30>-</td><td id=h30>-</td><td id=b30>-</td></tr>
+</tbody>
+<tfoot>
+<tr><th colspan=3>Total amount of winning bids:</th><th id=bt>-</th></tr>
+</tfoot>
+</table>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<h2>How to bid:</h2>
+<ol>
+<li>Enter your password, then press Enter. If you don't have a password, fill out the form on <a href="../index.html" target="_blank">livecounts.net/auction</a> to get one.</li>
+<li>Enter the day(s) you're bidding on, then press Tab. You may enter a single day (e.g., 21) or a range of days (e.g., 21-25).</li>
+<li>Enter the bid amount, then press Enter. To clear a bid, enter 0 as the bid amount.
+<li>You should see a "Success" message once your bid goes through.</li>
+<li>To submit another bid, repeat steps 2 and 3.</li>
+<li>Once you win, you will receive payment instructions by DM on Twitter.</li>
+<li><span style="color:red"><b>WARNING: You will not be able to lower or clear your bids during the final 24 hours of the auction.</b></span></li>
+<li><span style="color:red"><b>WARNING: Bluffing will result in a Livecounts strike.</b></span></li>
+<li><span style="color:red"><b>WARNING: If you win, but you don't have a valid Twitter username on file, your bids will be discarded.</b></span></li>
+<li><b>The bidding process is final. Please do not harass other bidders, even if they outbid you.</b></li>
+</ol>
+<h2>New rules:</h2>
+<ol>
+<li><span style="color:blue"><b>The maximum bid increment is $5.00.</b></span></li>
+<li><span style="color:blue"><b>The auction will end within five minutes after 19:00 UTC on 8/22.</b></span></li>
+<li><span style="color:blue"><b>You can be the highest bidder on up to 5 days.</b></span></li>
+<li><span style="color:blue"><b>You may pay by PayPal or Amazon Gift Cards.</b></span></li>
+</ol>
+<br>
+<iframe src="https://free.timeanddate.com/countdown/i6l95r2y/cf12/cm0/cu4/ct0/cs1/ca0/cr0/ss0/cacfff/cpcfff/pc333/tcfff/fs100/szw448/szh189/tatThe September auction/tac48c/tptThe September auction/tpc48c/matstarts in/mac48c/mptstarts in/mpc48c/iso2019-08-20T19:00:00/pa10" allowtransparency="true" frameborder="0" width="310" height="114"></iframe>&nbsp;<iframe src="https://free.timeanddate.com/countdown/i6l95r2y/cf12/cm0/cu4/ct0/cs1/ca0/cr0/ss0/cacfff/cpcfff/pc333/tcfff/fs100/szw448/szh189/tatThe September auction ends/tac48c/tptThe September auction ends/tpc48c/matwithin five minutes after/mac48c/mptwithin five minutes after/mpc48c/iso2019-08-22T19:00:00/pa10" allowtransparency="true" frameborder="0" width="410" height="114"></iframe>
+
+<script>
+    var socket = io.connect("https://analytics.livecounts.net/", {path: "/auction2/socket.io"});
+    var auctionStart = 1566327600e3;
+    
+    socket.on('ready', function(content) {
+        $("youtuber").disabled = false;
+        $("logIn").disabled = false;
+        $("youtuber").select();
+		if (isOver())
+		{
+			errorMessage("the auction is over");
+		}
+        else if (started())
+        {
+            successMessage("ready - please enter your password");
+        }
+        else
+        {
+            errorMessage("the auction hasn't started yet. Once it starts, you may enter the password");
+        }
+    });
+    
+    socket.on('initialData', function(content) {
+        for (var i = 20; i <= 30; i++)
+        {
+            $("y" + i).innerHTML = content.tableData[i - 1].youtuber;
+            $("h" + i).innerHTML = content.tableData[i - 1].bid;
+            $("b" + i).innerHTML = content.ownBids[i - 1];
+        }
+        colorWinningDays();
+        if (!content.isOver)
+        {
+            $("day").disabled = false;
+            $("bid").disabled = false;
+            $("submitBid").disabled = false;
+        }
+        $("youtuber").disabled = true;
+        $("logIn").disabled = true;
+        $("day").select();
+        successMessage("loaded bidding data");
+    });
+    
+    socket.on('bidFail', function(content) {
+        errorMessage(content.message);
+        for (var day of content.days)
+        {
+            $("b" + day).innerHTML = content.bid;
+        }
+        $("bid").select();
+    });
+    
+    socket.on('bidSuccess', function(content) {
+        successMessage(content.message);
+        for (var day of content.days)
+        {
+            $("b" + day).innerHTML = content.bid;
+        }
+        $("day").select();
+    });
+    
+    socket.on('bidClearSuccess', function(content) {
+        successMessage(content.message);
+        for (var i = content.day1; i <= content.day2; i++)
+        {
+            $("b" + i).innerHTML = "-";
+        }
+        $("day").select();
+    });
+    
+    socket.on('incrementedBid', function(content) {
+        $("bid").value = content;
+        $("bid").select();
+    });
+    
+    socket.on('tableData', function(content) {
+        for (var i = 20; i <= 30; i++)
+        {
+            $("y" + i).innerHTML = content[i - 1].youtuber;
+            $("h" + i).innerHTML = content[i - 1].bid;
+        }
+        colorWinningDays();
+    });
+    
+    socket.on('passwordFail', function(message) {
+        errorMessage(message);
+        $("youtuber").select();
+    });
+    
+    socket.on('auctionClosed', function(message) {
+        errorMessage(message);
+        $("day").disabled = true;
+        $("bid").disabled = true;
+        $("submitBid").disabled = true;
+    });
+	
+	socket.on('userCountUpdate', function(count) {
+		$("userCount").innerHTML = count + " user" + (count == 1 ? "" : "s") + " online";
+	});
+    
+	socket.on('announcement', function(message) {
+		$("announcement").innerHTML = message;
+	});
+    
+    socket.on('bidLockedFail', function(message) {
+        errorMessage(message);
+        $("bid").select();
+    });
+    
+	function handleDay(e)
+    {
+        if (e.keyCode === 9)
+        {
+            var d = parseInt($("day").value);
+            if (isNaN(d))
+            {
+                errorMessage("invalid day");                
+            }
+            else if (d < 20 || d > 30)
+            {
+                errorMessage("day must be between 20 and 30 inclusive");
+            }
+            else
+            {
+                $("status").innerHTML = "<br>";
+                socket.emit('highestBidQuery', d);
+            }
+        }
+        else if (e.keyCode === 13)
+        {
+            submit();
+        }
+        return false;
+    }
+   
+	function handleBid(e)
+    {
+        if (e.keyCode === 13)
+        {
+            submit();
+        }
+        return false;
+    }
+   
+	function handlePass(e)
+    {
+        if (e.keyCode === 13)
+        {
+            checkPassword();
+        }
+        return false;
+    }
+    
+    function submit()
+	{
+        var d = $("day").value;
+        var y = $("youtuber").value;
+        if (d.indexOf("-") == -1)
+        {
+            var d1 = parseInt(d);
+            var d2 = d1;
+        }
+        else
+        {
+            var d1 = parseInt(d.slice(0, d.indexOf("-")));
+            var d2 = parseInt(d.slice(d.indexOf("-") + 1));
+        }
+        var b = roundQuarter(parseFloat($("bid").value));
+        if (y == "")
+        {
+            errorMessage("must enter password");
+            $("youtuber").select();
+        }
+        else if (isNaN(d1) || isNaN(d2))
+        {
+            errorMessage("invalid day");
+            $("day").select();
+        }
+        else if (d1 < 20 || d1 > 30 || d2 < 20 || d2 > 30)
+        {
+            errorMessage("day must be between 20 and 30 inclusive");
+            $("day").select();
+        }
+        else if (d1 > d2)
+        {
+            errorMessage("invalid range");
+            $("day").select();
+        }
+        else if (isNaN(b))
+        {
+            errorMessage("invalid bid");
+            $("bid").select();        
+        }
+        else if (b < .5 && b != 0)
+        {
+            errorMessage("bid amount must be $0.50 or greater");
+            $("bid").select();
+        }
+        else
+        {
+            socket.emit('bid', {youtuber: y, day1: d1, day2: d2, amount: b, master: ""});
+        }
+	}    
+	
+    function roundQuarter(x)
+    {
+        return Math.round(4 * x) / 4;
+    }
+    
+    function errorMessage(m)
+    {
+        $("status").style.color = "#f00";
+        $("status").innerHTML = "Error: " + m;
+    }
+    
+    function successMessage(m)
+    {
+        $("status").style.color = "#080";
+        $("status").innerHTML = "Success: " + m;
+    }
+    
+    function checkPassword()
+    {
+        socket.emit('passwordSubmit', $("youtuber").value);
+    }
+    
+    function colorWinningDays()
+    {
+        var total = 0;
+        for (var i = 20; i <= 30; i++)
+        {
+            if ($("h" + i).innerHTML == $("b" + i).innerHTML && $("h" + i).innerHTML != "-")
+            {
+                $("d" + i).style.backgroundColor = "#8f8";
+                $("y" + i).style.backgroundColor = "#8f8";
+                $("h" + i).style.backgroundColor = "#8f8";
+                $("b" + i).style.backgroundColor = "#8f8";
+                total += parseFloat($("b" + i).innerHTML);
+            }
+            else
+            {
+                $("d" + i).style.backgroundColor = "#fff";
+                $("y" + i).style.backgroundColor = "#fff";
+                $("h" + i).style.backgroundColor = "#fff";
+                $("b" + i).style.backgroundColor = "#fff";
+            }
+        }
+        $("bt").innerHTML = "$" + total.toFixed(2);
+    }
+
+    function started()
+    {
+        return new Date() >= auctionStart;
+    }
+
+    function isOver()
+    {
+        return new Date() >= auctionStart + 1728e5 + 300e3;
+    }
+    
+	function $(e)
+	{
+		return document.getElementById(e);
+	}
+</script>
+</body>
+
+<!-- Mirrored from livecounts.net/auction/bidding/ by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 08 Aug 2019 11:41:25 GMT -->
+</html>
